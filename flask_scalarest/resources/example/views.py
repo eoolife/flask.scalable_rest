@@ -35,17 +35,20 @@ class UserResource(Resource):
             abort(404, message=u'id is %s not exist here' % user_id, error_code=404)
         return user
 
+    # @marshal_with(user_fields)
     def get(self, user_id):
         user = self.use_exist(user_id)
         ujson = marshal(user, user_fields)
         add_self_atom_link(ujson)
-        return {'user': ujson}, 200
+        return ujson, 200
 
     def put(self, user_id):
         user = self.use_exist(user_id)
+        return {}, 200
 
     def delete(self, user_id):
         user = self.use_exist(user_id)
+        return {}, 200
 
 
 class UsersResource(Resource):
