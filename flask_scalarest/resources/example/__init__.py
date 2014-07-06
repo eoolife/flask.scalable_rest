@@ -10,3 +10,4 @@
 """
 
 from .models import User, UserDetail, Address
+from .views import UsersResource, UserResource

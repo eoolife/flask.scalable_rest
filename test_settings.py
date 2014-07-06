@@ -10,7 +10,8 @@
 """
 
 DEBUG = True
-
-SQLALCHEMY_DATABASE_URI = 'sqlite:////root/test.db'
-SQLALCHEMY_ECHO = DEBUG
+USE_DIESEL = False
+HOST = '0.0.0.0'
+SQLALCHEMY_DATABASE_URI = 'sqlite:////test.db'
+SQLALCHEMY_ECHO = False
 SQLALCHEMY_POOL_RECYCLE = 7200

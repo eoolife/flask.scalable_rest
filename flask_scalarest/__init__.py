@@ -3,26 +3,39 @@
 # 人生苦短,我用python
 from __future__ import absolute_import
 
-from diesel.web import DieselFlask
-from diesel import runtime
 
 from .extensions.database import database
 from .extensions.rest import rest_api
 
+from .resources.example import (UserResource, UsersResource)
 
 
-BLUEPRINTS = ()
+def create_app(config_file, use_diesel=False):
+    if use_diesel:
+        from diesel.web import DieselFlask
+        from diesel import runtime
+        app = DieselFlask(__name__)
+        runtime.current_app = app.diesel_app
+    else:
+        import flask
+        app = flask.Flask(__name__)
 
-
-def create_app(config_file):
-    app = DieselFlask(__name__)
-    runtime.current_app = app.diesel_app
     app.config.from_pyfile(config_file)
-    configure_blueprints(app)
     configure_extensions(app)
     init_database(app)
-
+    configure_resource(app)
+    print app.url_map
     return app
+
+
+def configure_resource(app):
+
+    # API:User Follow
+    # rest_api.add_resource(UsersResource,
+    #                       '/users', endpoint='users_ep', methods=['GET', 'POST'])
+    # rest_api.add_resource(UserResource,
+    #                       '/user/<int:user_id>', endpoint='user_ep', methods=['GET', 'DELETE', 'PUT'])
+    print 'Restful API LIST FINISHED!'
 
 
 def configure_sqlalchemy_log(app):
@@ -39,10 +52,21 @@ def init_database(app):
     database.create_all()
 
 
-def configure_blueprints(app):
-    for blueprint, url_prefix in BLUEPRINTS:
-        app.register_blueprint(blueprint, url_prefix=url_prefix)
-
-
 def configure_extensions(app):
     rest_api.init_app(app)
+    rest_api.app = app
+
+
+def configure_errors(app):
+    errors = {
+        'UserAlreadyExistsError': {
+            'message': "A user with that username already exists.",
+            'status': 409,
+        },
+        'ResourceDoesNotExist': {
+            'message': "A resource with that ID no longer exists.",
+            'status': 410,
+            'extra': "Any extra information you want.",
+        },
+    }
+

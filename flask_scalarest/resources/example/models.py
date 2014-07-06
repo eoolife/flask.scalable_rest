@@ -11,9 +11,10 @@
 import datetime
 
 from ...extensions.database import database
+from ...core import DictSerializableMixed
 
 
-class User(database.Model):
+class User(database.Model, DictSerializableMixed):
 
     __tablename__ = 'tb_user'
 
@@ -26,14 +27,14 @@ class User(database.Model):
     add_time = database.Column(database.DateTime, default=datetime.datetime.now)
 
     # relationship follow
-    detail = database.relationship('UserDetail', backref=database.backref('user'), useList=False)
+    detail = database.relationship('UserDetail', uselist=False, backref=database.backref('user'))
     addresses = database.relationship('Address', backref=database.backref('user'), lazy="dynamic")
 
-    def to_dict(self):
-        return dict((c, getattr(self, c)) for c in self.columns)
+    # def to_dict(self):
+    #     return dict((c, getattr(self, c)) for c in self.columns)
 
 
-class UserDetail(database.Model):
+class UserDetail(database.Model, DictSerializableMixed):
 
     __tablename__ = 'tb_user_detail'
 
@@ -42,8 +43,10 @@ class UserDetail(database.Model):
     intro = database.Column(database.String(200))
     add_time = database.Column(database.DateTime, default=datetime.datetime.now)
 
+    user_id = database.Column(database.Integer, database.ForeignKey('tb_user.id'))
 
-class Address(database.Model):
+
+class Address(database.Model, DictSerializableMixed):
 
     __tablename__ = 'tb_address'
 
@@ -51,3 +54,5 @@ class Address(database.Model):
     addr = database.Column(database.String(100))
     post_code = database.Column(database.String(10))
     add_time = database.Column(database.DateTime, default=datetime.datetime.now)
+
+    user_id = database.Column(database.Integer, database.ForeignKey('tb_user.id'))
