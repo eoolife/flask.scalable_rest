@@ -144,10 +144,56 @@ class UsersResource(Resource):
 
 
 class AddressResource(Resource):
-    pass
+
+    def __init__(self):
+        self.reqparse = reqparse.RequestParser()
+
+        self.reqparse.add_argument('id', type=int, location='form', action='append')
+        self.reqparse.add_argument('post_code', type=str, location='form', action='append')
+        self.reqparse.add_argument('addr', type=str, location='form', action='append')
+
+        super(AddressResource, self).__init__()
+
+    def get(self, addr_id):
+        return {}, 200
+
+    def put(self, addr_id):
+        return {}, 200
+
+    def delete(self, addr_id):
+        return {}, 200
+
+
+class AddressListResource(Resource):
+
+    def get_reqparse(self):
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument('page', type=int, location='args')
+        self.reqparse.add_argument('size', type=int, location='args')
+
+    def __init__(self):
+        self.reqparse = reqparse.RequestParser()
+
+        self.reqparse.add_argument('id', type=int, location='form', action='append')
+        self.reqparse.add_argument('post_code', type=str, location='form', action='append')
+        self.reqparse.add_argument('addr', type=str, location='form', action='append')
+
+        super(AddressListResource, self).__init__()
+
+    def get(self):
+        self.get_reqparse()
+        return {}, 200
+
+    def post(self):
+        return {}, 201
 
 
 rest_api.add_resource(UsersResource,
                       '/users', endpoint='users_ep', methods=['GET', 'POST'])
 rest_api.add_resource(UserResource,
                       '/user/<int:user_id>', endpoint='user_ep', methods=['GET', 'DELETE', 'PUT'])
+
+rest_api.add_resource(AddressResource,
+                      '/address/<int:addr_id>', endpoint='addr_ep', methods=['GET', 'DELETE', 'PUT'])
+rest_api.add_resource(AddressListResource,
+                      '/addresses', endpoint='addrs_ep', methods=['GET', 'POST'])
