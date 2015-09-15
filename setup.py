@@ -29,14 +29,6 @@ setup(name='flask_scalarest',
       zip_safe=False,
       install_requires=[
         # -*- Extra requirements: -*-
-        'flask',
-        'pyev',
-        'greenlet',
-        'twiggy',
-        'pyopenssl',
-        'http-parser >= 0.7.12',
-        'dnspython',
-        'diesel',
       ],
       entry_points="""
       # -*- Entry points: -*-
