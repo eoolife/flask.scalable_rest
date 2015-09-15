@@ -1,10 +1,10 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
 # 人生哭短, Python当歌 since 2015
-
+# https://github.com/miguelgrinberg/REST-auth/blob/master/api.py#L75
 
 import random
-
+from uuid import uuid4
 from flask import Flask, request, jsonify, session, redirect, url_for
 
 from flask_scalarest.core.session import FlaskRedisSession
@@ -32,20 +32,23 @@ def index():
 @app.route('/login')
 def login():
   session['user_id'] = random.randint(1, 10000)
+  session['token'] = str(uuid4()).replace('-', '')
   print('login uid %s' % session['user_id'])
   return redirect(url_for('user_info'))
 
 
 @app.route('/logout')
 def logout():
-  del session
+  del session['user_id']
+  del session['token']
   return redirect(url_for('index'))
 
 
 @app.route('/user_info')
 def user_info():
     print('====================== user_info =================')
-    return jsonify({'name': 'daqing', 'age': 25, 'session_id': session.get('user_id')})
+    print('token: ' + session.get('token', ''))
+    return jsonify({'name': 'daqing', 'age': 25, 'session_id': session.get('user_id'), 'token': session.get('token')})
 
 
 if __name__ == '__main__':

@@ -18,3 +18,11 @@
 
     class Resource(restful.Resource):
         method_decorators = [authenticate]   # applies to all inherited resources
+        
+        
+https://github.com/sgray10/flask-restful-auth-microservice
+        
+https://github.com/marchon/Flask-API-Server
+https://github.com/karnikamit/RESTful-API-with-Python-and-Flask/blob/master/fun_api
+https://github.com/vctandrade/flask-digest
+https://github.com/inveniosoftware/flask-sso/blob/master/flask_sso/__init__.py
