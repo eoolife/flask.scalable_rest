@@ -7,6 +7,7 @@ from flask import request
 
 from ...extensions.rest import rest_api
 from ...extensions.database import database as db
+from ...core.metrics import metrics
 
 from .models import (User, UserDetail, Address)
 
@@ -35,13 +36,20 @@ class UserResource(Resource):
             abort(404, message=u'id is %s not exist here' % user_id, error_code=404)
         return user
 
-    # @marshal_with(user_fields)
+
+    @metrics.with_meter("user-get-tp")
+    @metrics.with_histogram("user-get-latency")
+    @metrics.with_meter("user-throughput")
+    #@marshal_with(user_fields)
     def get(self, user_id):
         user = self.use_exist(user_id)
         ujson = marshal(user, user_fields)
         add_self_atom_link(ujson)
         return ujson, 200
 
+    @metrics.with_meter("user-put-tp")
+    @metrics.with_histogram("user-put-latency")
+    @metrics.with_meter("user-put-throughput")
     def put(self, user_id):
         user = self.use_exist(user_id)
         return {}, 200
@@ -89,6 +97,9 @@ class UsersResource(Resource):
             detail_args.update({k.split('.')[1]: v})
         return detail_args
 
+    @metrics.with_meter("users-get-tp")
+    @metrics.with_histogram("uses-get-latency")
+    @metrics.with_meter("users-get-throughput")
     def get(self):
         self.get_reqparse()
 

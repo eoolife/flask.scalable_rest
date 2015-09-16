@@ -9,6 +9,8 @@
     :license, see LICENSE for more details.
 """
 import datetime
+import random
+from passlib.hash import sha256_crypt
 
 from ...extensions.database import database
 from ...core import DictSerializableMixed
@@ -23,15 +25,25 @@ class User(database.Model, DictSerializableMixed):
     head_ico = database.Column(database.String(100))
     username = database.Column(database.String(50), index=True)
     role = database.Column(database.SmallInteger, default=0, index=True)    # 0:学生, 1:商家（公司）2:其他
-    password = database.Column(database.String(72))
+    password = database.Column(database.String(88))
+    salt = database.Column(database.String(8))
     add_time = database.Column(database.DateTime, default=datetime.datetime.now)
 
     # relationship follow
     detail = database.relationship('UserDetail', uselist=False, backref=database.backref('user'))
     addresses = database.relationship('Address', backref=database.backref('user'), lazy="dynamic")
 
-    # def to_dict(self):
-    #     return dict((c, getattr(self, c)) for c in self.columns)
+
+    def create_password(self, password):
+        self.salt = ''.join(random.sample('1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()', 8))
+        encrypt_str = '%s%s' % (password, self.salt)
+        self.password = sha256_crypt.encrypt(encrypt_str)
+        return self.password
+
+    def verify_password(self, password):
+        encrypt_str = '%s%s' % (password, self.salt)
+        verify_result = sha256_crypt.verify(encrypt_str, self.password)
+        return verify_result
 
 
 class UserDetail(database.Model, DictSerializableMixed):

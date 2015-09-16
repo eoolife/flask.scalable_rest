@@ -4,12 +4,16 @@
 
 
 from __future__ import  print_function
-
+import random
 from passlib.hash import sha256_crypt
 
-
-hash = sha256_crypt.encrypt("123456")
+password = '123456'
+salt = ''.join(random.sample('1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()', 8))
+print(salt)
+encrypt_str = '%s%s' % (password, salt)
+password = sha256_crypt.encrypt(encrypt_str)
+hash = sha256_crypt.encrypt(encrypt_str)
 print(hash)
 
-verify_result = sha256_crypt.verify('123456', hash)
+verify_result = sha256_crypt.verify(encrypt_str, hash)
 print(verify_result)

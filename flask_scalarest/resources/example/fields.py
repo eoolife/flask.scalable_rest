@@ -12,6 +12,8 @@
 
 from flask_restful import fields, marshal, reqparse, url_for
 
+from ...core.rest_fields import DateField
+
 
 # 针对单个表述的LINK
 def link_field(endpoint, rel_type='self', absolute=True):
@@ -49,7 +51,6 @@ user_fields = {
     'head_ico': fields.String,
     'username': fields.String,
     'role': fields.Integer,
-    'password': fields.String,
     'add_time': fields.DateTime,
     'detail': fields.Nested(user_detail_fields),
     'addresses': fields.Nested(address_fields),

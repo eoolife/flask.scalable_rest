@@ -1,3 +1,4 @@
+pymysql
 Flask
 Flask-RESTful
 flask-restful-swagger
@@ -23,3 +24,4 @@ requests
 redis
 APScheduler
 gevent
+appmetrics
