@@ -35,4 +35,12 @@ class ApiTokenResource(Resource):
         if not user.verify_password(password):
             abort(403, message=u'用户密码错误，请重新授权？至多尝试5次', error_code=403)
 
+        ret = {
+            'token': '',
+            'uid': user.id,
+            'expires': 60 * 60 * 24 # 默认一天
+        }
+
+        return ret, 200
+
 

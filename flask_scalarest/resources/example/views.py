@@ -40,12 +40,10 @@ class UserResource(Resource):
     @metrics.with_meter("user-get-tp")
     @metrics.with_histogram("user-get-latency")
     @metrics.with_meter("user-throughput")
-    #@marshal_with(user_fields)
+    @marshal_with(user_fields)
     def get(self, user_id):
         user = self.use_exist(user_id)
-        ujson = marshal(user, user_fields)
-        add_self_atom_link(ujson)
-        return ujson, 200
+        return user, 200
 
     @metrics.with_meter("user-put-tp")
     @metrics.with_histogram("user-put-latency")
@@ -54,6 +52,9 @@ class UserResource(Resource):
         user = self.use_exist(user_id)
         return {}, 200
 
+    @metrics.with_meter("user-delete-tp")
+    @metrics.with_histogram("user-delete-latency")
+    @metrics.with_meter("user-delete-throughput")
     def delete(self, user_id):
         user = self.use_exist(user_id)
         return {}, 200
