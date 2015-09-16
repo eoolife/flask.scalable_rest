@@ -1,28 +1,29 @@
-# flask restufl实验项目
+# 基于Flask、Flask-Restufl上的快速构建Restful风格API的小项目
 
-# use authenticate example::
-    def authenticate(func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            if not getattr(func, 'authenticated', True):
-                return func(*args, **kwargs)
+该项目能让你基于Flask与Flask-Restful之上构建一个良好Restful风格的API，让你快速构建一个能用于生产中的API，并提供良好的Metrics!
 
-            acct = basic_authentication()  # custom account lookup function
+## 项目的特性
 
-            if acct:
-                return func(*args, **kwargs)
+* 基于Flask/Flask-Restful
+* ORM使用SQLAlchemy
+* 具有metrics功能，可以方便通过decorator的方式让你随心监控某些API的运行指标
+* 可部署在兼容uwsgi协议上的容器中，例如uwsgi与gevent之上，获取更高的性能
+* 基于Token授权访问的机制（更多方式可以自己添加）保护API
 
-            restful.abort(401)
-        return wrapper
+## 后续开发计划
+
+* 编写完善的API文档，利于新人上手
+* 为metrics增加一个可视化的浏览方式？
+* metrics的数据使用mysql(mongodb)保存？
+* 基于Swagger-UI美化API文档？
+    
+## 如何使用      
+
+敬请期待！！！
 
 
-    class Resource(restful.Resource):
-        method_decorators = [authenticate]   # applies to all inherited resources
-        
-        
-https://github.com/sgray10/flask-restful-auth-microservice
-        
-https://github.com/marchon/Flask-API-Server
-https://github.com/karnikamit/RESTful-API-with-Python-and-Flask/blob/master/fun_api
-https://github.com/vctandrade/flask-digest
-https://github.com/inveniosoftware/flask-sso/blob/master/flask_sso/__init__.py
+## 联系方式
+
+email: eoolife@163.com
+
+QQ: eoolife@163.com
