@@ -8,7 +8,7 @@
 * ORM使用SQLAlchemy
 * 具有metrics功能，可以方便通过decorator的方式让你随心监控某些API的运行指标
 * 可部署在兼容uwsgi协议上的容器中，例如uwsgi与gevent之上，获取更高的性能
-* 基于Token授权访问的机制（更多方式可以自己添加）保护API
+* 基于JWT(JSON Web Tokens)授权访问的机制（更多方式可以自己添加）保护API
 
 ## 后续开发计划
 

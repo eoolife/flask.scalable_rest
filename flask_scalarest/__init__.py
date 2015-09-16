@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # 人生苦短,我用python
-from __future__ import absolute_import
 
+from __future__ import absolute_import, print_function
+from flask import Flask
 
 from .extensions.database import database
 from .extensions.rest import rest_api
@@ -12,20 +13,11 @@ from .resources.base import (ApiTokenResource,)
 
 
 def create_app(config_file, use_diesel=False):
-    if use_diesel:
-        from diesel.web import DieselFlask
-        from diesel import runtime
-        app = DieselFlask(__name__)
-        runtime.current_app = app.diesel_app
-    else:
-        import flask
-        app = flask.Flask(__name__)
-
+    app = Flask(__name__)
     app.config.from_pyfile(config_file)
     configure_extensions(app)
     init_database(app)
     configure_resource(app)
-    print app.url_map
     return app
 
 
@@ -36,7 +28,7 @@ def configure_resource(app):
     #                       '/users', endpoint='users_ep', methods=['GET', 'POST'])
     # rest_api.add_resource(UserResource,
     #                       '/user/<int:user_id>', endpoint='user_ep', methods=['GET', 'DELETE', 'PUT'])
-    print 'Restful API LIST FINISHED!'
+    print('Restful API LIST FINISHED!')
 
 
 def configure_sqlalchemy_log(app):
