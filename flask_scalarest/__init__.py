@@ -8,6 +8,7 @@ from .extensions.database import database
 from .extensions.rest import rest_api
 
 from .resources.example import (UserResource, UsersResource)
+from .resources.base import (ApiTokenResource,)
 
 
 def create_app(config_file, use_diesel=False):

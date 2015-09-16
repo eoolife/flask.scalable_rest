@@ -7,6 +7,7 @@ from flask import request
 
 from ...extensions.rest import rest_api
 from ...extensions.database import database as db
+from ...extensions.jwt import jwt_required
 from ...core.metrics import metrics
 
 from .models import (User, UserDetail, Address)
@@ -37,6 +38,7 @@ class UserResource(Resource):
         return user
 
 
+    @jwt_required()
     @metrics.with_meter("user-get-tp")
     @metrics.with_histogram("user-get-latency")
     @metrics.with_meter("user-throughput")

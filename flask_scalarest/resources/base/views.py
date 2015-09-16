@@ -8,9 +8,29 @@ from flask_restful import Resource, marshal_with, reqparse, abort, url_for, mars
 from flask import request
 
 from ...extensions.rest import rest_api
+from ...extensions.jwt import jwt, jwt_required
 from ...extensions.database import database as db
 
 from ..example.models import User
+
+
+@jwt.user_handler
+def load_user(payload):
+    print('============== jwt user_handler =================')
+    print(payload)
+    user_id = payload['user_id']
+    user = User.query.filter(User.id == user_id).first()
+    return user
+
+
+@jwt.authentication_handler
+def authenticate(username, password):
+    user = User.query.filter(User.username == username).first()
+    if not user:
+        abort(404, message=u'用户不存在，请检查用户ID和密码是否正确' % username, error_code=404)
+    if not user.verify_password(password):
+        abort(403, message=u'用户密码错误，请重新授权？至多尝试5次', error_code=403)
+    return user
 
 
 class ApiTokenResource(Resource):
@@ -36,7 +56,7 @@ class ApiTokenResource(Resource):
             abort(403, message=u'用户密码错误，请重新授权？至多尝试5次', error_code=403)
 
         ret = {
-            'token': '',
+            'token': 'TOKEN:%s' % user.id,
             'uid': user.id,
             'expires': 60 * 60 * 24 # 默认一天
         }
@@ -44,3 +64,5 @@ class ApiTokenResource(Resource):
         return ret, 200
 
 
+rest_api.add_resource(ApiTokenResource,
+                      '/get_token', endpoint='apitoken_ep', methods=['POST'])

@@ -23,7 +23,7 @@ class User(database.Model, DictSerializableMixed):
     id = database.Column(database.Integer, autoincrement=True, primary_key=True)
     email = database.Column(database.String(100), index=True)
     head_ico = database.Column(database.String(100))
-    username = database.Column(database.String(50), index=True)
+    username = database.Column(database.String(50), index=True, unique=True)
     role = database.Column(database.SmallInteger, default=0, index=True)    # 0:学生, 1:商家（公司）2:其他
     password = database.Column(database.String(88))
     salt = database.Column(database.String(8))
