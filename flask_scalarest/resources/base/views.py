@@ -9,6 +9,7 @@ from flask import request, current_app
 
 from ...extensions.rest import rest_api
 from ...extensions.jwt import jwt, jwt_required
+from ...core.metrics import metrics
 from ...extensions.database import database as db
 
 from ..example.models import User
@@ -74,5 +75,4 @@ class ApiTokenResource(Resource):
         return ret, 200
 
 
-rest_api.add_resource(ApiTokenResource,
-                      '/get_token', endpoint='apitoken_ep', methods=['POST'])
+rest_api.add_resource(ApiTokenResource, '/get_token', endpoint='apitoken_ep', methods=['POST'])

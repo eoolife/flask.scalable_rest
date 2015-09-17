@@ -6,7 +6,6 @@ Flask-SQLAlchemy
 Flask-Login
 Flask-Migrate
 flask-script
-flask-marshmallow
 Flask-JSONRPC
 Flask-Testing
 Flask-QRcode

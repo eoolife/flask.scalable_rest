@@ -206,6 +206,48 @@ class AddressListResource(Resource):
         return {}, 201
 
 
+class QrcodeResource(Resource):
+    """生产二维码的API"""
+
+    @jwt_required()
+    @metrics.with_meter("qrcode-tp")
+    @metrics.with_histogram("qrcode-latency")
+    @metrics.with_meter("qrcode-throughput")
+    def get(self, qrcode_id):
+        pass
+
+    @jwt_required()
+    @metrics.with_meter("qrcode-tp")
+    @metrics.with_histogram("qrcode-latency")
+    @metrics.with_meter("qrcode-throughput")
+    def put(self, qrcode_id):
+        pass
+
+    @jwt_required()
+    @metrics.with_meter("qrcode-tp")
+    @metrics.with_histogram("qrcode-latency")
+    @metrics.with_meter("qrcode-throughput")
+    def delete(self, qrcode_id):
+        pass
+
+
+class QrcodeListResource(Resource):
+
+    @jwt_required()
+    @metrics.with_meter("qrcode-tp")
+    @metrics.with_histogram("qrcode-latency")
+    @metrics.with_meter("qrcode-throughput")
+    def get(self):
+        pass
+
+    @jwt_required()
+    @metrics.with_meter("qrcode-tp")
+    @metrics.with_histogram("qrcode-latency")
+    @metrics.with_meter("qrcode-throughput")
+    def post(self):
+        pass
+
+
 rest_api.add_resource(UsersResource,
                       '/users', endpoint='users_ep', methods=['GET', 'POST'])
 rest_api.add_resource(UserResource,
@@ -215,3 +257,6 @@ rest_api.add_resource(AddressResource,
                       '/address/<int:addr_id>', endpoint='addr_ep', methods=['GET', 'DELETE', 'PUT'])
 rest_api.add_resource(AddressListResource,
                       '/addresses', endpoint='addrs_ep', methods=['GET', 'POST'])
+
+rest_api.add_resource(QrcodeResource, '/qrcode/<qrcode_id>')
+rest_api.add_resource(QrcodeListResource, '/qrcodes')
