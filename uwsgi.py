@@ -10,14 +10,9 @@ from flask_scalarest.extensions.jwt import jwt
 here = os.path.dirname(os.path.realpath(__file__))
 config_file = os.path.join(here, 'test_settings.py')
 application = create_app(config_file)
+application.wsgi_app = AppMetricsMiddleware(application.wsgi_app)
+jwt.init_app(application)
 
 
 if __name__ == '__main__':
-    application.wsgi_app = AppMetricsMiddleware(application.wsgi_app)
-    jwt.init_app(application)
-    print(application.url_map)
-    application.run(
-        host=application.config.get('HOST', '0.0.0.0'),
-        port=application.config.get('PORT'),
-        debug=application.config['DEBUG'],
-    )
+    application.run()
