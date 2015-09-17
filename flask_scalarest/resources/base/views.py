@@ -26,14 +26,6 @@ def load_user(payload):
     return user
 
 
-# @jwt.payload_handler
-# def make_payload(user):
-#     return {
-#         'user_id': user.id,
-#         'exp': datetime.datetime.utcnow() + current_app.config['JWT_EXPIRATION_DELTA']
-#     }
-
-
 @jwt.authentication_handler
 def authenticate(username, password):
     user = User.query.filter(User.username == username).first()

@@ -23,11 +23,6 @@ def create_app(config_file, use_diesel=False):
 
 def configure_resource(app):
 
-    # API:User Follow
-    # rest_api.add_resource(UsersResource,
-    #                       '/users', endpoint='users_ep', methods=['GET', 'POST'])
-    # rest_api.add_resource(UserResource,
-    #                       '/user/<int:user_id>', endpoint='user_ep', methods=['GET', 'DELETE', 'PUT'])
     print('Restful API LIST FINISHED!')
 
 

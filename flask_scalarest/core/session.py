@@ -8,16 +8,14 @@ flask redis session
 :license: MIT, see LICENSE for more details.
 :Date: Sep, 2015
 :written by internet
-
 https://github.com/EricQAQ/Flask-RedisSession/blob/master/flask_redisSession/__init__.py
 
 """
 from __future__ import print_function
 
 import json
-from datetime import datetime, timedelta
+from datetime import datetime
 from uuid import uuid4
-from redis import Redis
 from werkzeug.datastructures import CallbackDict
 from flask.sessions import SessionInterface, SessionMixin, total_seconds
 from werkzeug.local import Local

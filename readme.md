@@ -32,3 +32,8 @@
 email: eoolife@163.com
 
 QQ: eoolife@163.com
+
+
+## LICENCE
+
+MIT
