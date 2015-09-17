@@ -20,6 +20,8 @@
     
 ## 如何使用      
 
+每个JWT TOKEN值默认有效时间为 `JWT_EXPIRATION_DELTA` 7200s，如果同时设置了 `JWT_LEEWAY` 则是两个配置项加起来，就是有效时间
+
 下载下来在对应的 `flask_scalarest/resources/your package name/` 创建python包（当然你也可以将整个项目改名）
 
 更多内容敬请期待！！！

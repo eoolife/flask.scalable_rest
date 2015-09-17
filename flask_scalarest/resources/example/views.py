@@ -3,7 +3,7 @@
 import datetime
 
 from flask_restful import Resource, marshal_with, reqparse, abort, url_for, marshal
-from flask import request
+from flask import request, _request_ctx_stack, redirect
 
 from ...extensions.rest import rest_api
 from ...extensions.database import database as db
@@ -44,8 +44,12 @@ class UserResource(Resource):
     @metrics.with_meter("user-throughput")
     @marshal_with(user_fields)
     def get(self, user_id):
-        user = self.use_exist(user_id)
-        return user, 200
+        if hasattr(_request_ctx_stack.top, "current_user"):
+            current_user = _request_ctx_stack.top.current_user
+            # user = self.use_exist(user_id)
+            return current_user, 200
+        else:
+            return redirect('/api/auth_token')
 
     @metrics.with_meter("user-put-tp")
     @metrics.with_histogram("user-put-latency")

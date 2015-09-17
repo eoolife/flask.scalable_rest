@@ -5,7 +5,7 @@
 import datetime
 
 from flask_restful import Resource, marshal_with, reqparse, abort, url_for, marshal
-from flask import request
+from flask import request, current_app
 
 from ...extensions.rest import rest_api
 from ...extensions.jwt import jwt, jwt_required
@@ -16,11 +16,21 @@ from ..example.models import User
 
 @jwt.user_handler
 def load_user(payload):
-    print('============== jwt user_handler =================')
-    print(payload)
+    """
+    _jwt.decode_callback回调函数将token对称解密之后的用户数据传输到次，用以加载当前有效的用户数据，
+    并设置到 `_request_ctx_stack.top.current_user`
+    """
     user_id = payload['user_id']
     user = User.query.filter(User.id == user_id).first()
     return user
+
+
+# @jwt.payload_handler
+# def make_payload(user):
+#     return {
+#         'user_id': user.id,
+#         'exp': datetime.datetime.utcnow() + current_app.config['JWT_EXPIRATION_DELTA']
+#     }
 
 
 @jwt.authentication_handler
