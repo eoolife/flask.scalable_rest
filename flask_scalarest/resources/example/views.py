@@ -10,7 +10,8 @@ from ...extensions.database import database as db
 from ...extensions.jwt import jwt_required
 from ...core.metrics import metrics
 
-from .models import (User, UserDetail, Address)
+from ..base import (User, UserDetail)
+from .models import Address
 
 from .fields import user_detail_fields, user_fields, address_fields
 

@@ -9,5 +9,5 @@
     :license, see LICENSE for more details.
 """
 
-from .models import User, UserDetail, Address
+from .models import Address
 from .views import UsersResource, UserResource
