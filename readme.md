@@ -13,13 +13,16 @@
 ## 后续开发计划
 
 * 编写完善的API文档，利于新人上手
+* 增加一个建议的WebAPP客户端来进行API调用的案例
 * 为metrics增加一个可视化的浏览方式？
 * metrics的数据使用mysql(mongodb)保存？
 * 基于Swagger-UI美化API文档？
     
 ## 如何使用      
 
-敬请期待！！！
+下载下来在对应的 `flask_scalarest/resources/your package name/` 创建python包（当然你也可以将整个项目改名）
+
+更多内容敬请期待！！！
 
 
 ## 联系方式
